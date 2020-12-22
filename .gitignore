@@ -1,0 +1,9 @@
+*.o
+/.sconsign.dblite
+/bullet.cflags
+/bullet.cxxflags
+/bullet.config
+/bullet.creator*
+/bullet.files
+/bullet.includes
+/hello
