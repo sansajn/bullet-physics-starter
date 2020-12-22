@@ -1,6 +1,8 @@
 # bullet physics starter
 
-In the following text we present [*Bullet*][Bullet] library starter sample with an object falling towards ground under the gravity force. 
+> **note**: this is copy of [bullet physics starter](https://sansajn.github.io/post/2020/12/22/bullet-physics-starter.html) article
+
+In the following text we present [*Bullet*][Bullet] physics starter with an object falling towards ground under the gravity force sample. 
 
 ### content
 
@@ -15,6 +17,14 @@ First we need to install *Bullet* library, under *Ubuntu 20.04 LTS* it can be fo
 
 > use `sudo apt install libbullet-dev g++ scons pkg-config` command to install all required dependencies
 
+Then clone [bullet-physics-starter](https://github.com/sansajn/bullet-physics-starter) repository with
+
+```bash
+git clone https://github.com/sansajn/bullet-physics-starter.git
+```
+
+command.
+
 
 ## build & run
 
@@ -24,9 +34,13 @@ Building is super easy, just run
 scons
 ```
 
-command which creates `hello` executable in a starter directory, then run `./hello`. You should see falling body and ground positions in each simulation step, something like
+command from sample directory which creates `hello` executable, then run `./hello` to run the simulation. 
 
-```text
+There are two objects in the simulation falling body and ground. Simulation itself is divided into multiple short burst of times called steps. In every step simulation will print position for both objects (ground is not moving so its position is `0,-56,0` during whole simulation).
+
+You should see, something like this
+
+```console
 $ ./hello
 world pos object 1 = 2, 10, 0
 world pos object 0 = 0, -56, 0
@@ -40,9 +54,9 @@ world pos object 0 = 0, -56, 0
 
 ## sample description
 
-Heard of the physics simulation in *Bullet* is world, world is a place where objects (bodies) can interact with each other and world itself through forces. *Bullet* workflow is simple, create world, fill it with some bodies, setup forces and run simulation for some amount of time. 
+Heart of the physics simulation in *Bullet* is world, world is a place where objects (bodies) can interact with each other and world itself through forces. *Bullet* workflow is simple, create world, fill it with some bodies, setup forces and run simulation for some amount of time. 
 
-Our [sample][Sample] works the same way, it creates world represented by [`btDiscreteDynamicsWorld`][World] object type this way
+Our sample [hello][Sample] works the same way, it creates world represented by [`btDiscreteDynamicsWorld`][World] object type this way
 
 ```c++
 btDiscreteDynamicsWorld world{&dispatcher, &pair_cache, &solver, &config};
@@ -77,7 +91,7 @@ sphere_shape.calculateLocalInertia(mass, local_inertia);
 btRigidBody sphere_body{mass, &sphere_motion, &sphere_shape, local_inertia};
 ```
 
-this time `sphere_body` has also mass so its position will change during simulation based on applied forces (gravity in a our case). One note there, body's motion state is stored in [`btDefaultMotionState`][MotionState] object type (see `sphere_motion` variable) rather than in [`btRigidBody`][Body] objects.
+this time `sphere_body` has also mass so its position will change during simulation based on applied forces (gravity in our case). One note there, body's motion state is stored in [`btDefaultMotionState`][MotionState] object type (see `sphere_motion` variable) rather than in [`btRigidBody`][Body] objects.
 
 > initial body position is `(2, 10, 0)` with a radius equal to 1 and so it will hit the ground on `(2, -6, 0)` position with a center on `(2, -5, 0)`
 
@@ -97,11 +111,9 @@ for (int i = 0; i < 150; ++i) {
 }
 ```
 
-From the sample output we can see that the falling body ends on `(2.00006, -5.00001, 9.15244e-05)` position as expected. Pretty cool, what do you think ?
+From the sample output we can see that the falling body ends on `(2.00006, -5.00001, 9.15244e-05)` position as expected. Pretty cool, what do you think?
 
-> **tip**: see great [Learning Game Physics with Bullet Physics and OpenGL][Book] book for further reference
-
-> **advanced tip**: there are a lot more samples there in [`bullet3/examples`](https://github.com/bulletphysics/bullet3/tree/master/examples) directory
+> **advanced tip**: watch out other bullet samples from [`bullet3/examples`](https://github.com/bulletphysics/bullet3/tree/master/examples) directory
 
 
 [Bullet]: https://bulletphysics.org
@@ -110,8 +122,5 @@ From the sample output we can see that the falling body ends on `(2.00006, -5.00
 [Box]: https://pybullet.org/Bullet/BulletFull/classbtBoxShape.html
 [Sphere]: https://pybullet.org/Bullet/BulletFull/classbtSphereShape.html
 [MotionState]: https://pybullet.org/Bullet/BulletFull/structbtDefaultMotionState.html
-[Sample]: hello.cpp
+[Sample]: https://github.com/sansajn/bullet-physics-starter/blob/master/hello.cpp
 [Book]: https://www.packtpub.com/game-development/learning-game-physics-bullet-physics-and-opengl
-
-Adam Hlavatovic
-
